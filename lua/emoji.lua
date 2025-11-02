@@ -100,21 +100,15 @@ function _G.emoji_input_replacer(data, buffer, command)
 	return w.WEECHAT_RC_OK
 end
 
---------( THIS ALL DO THE SAME THING
 
-function _G.emoji_live_input_replace(data, modifier, modifier_data, msg)
-	return str2emoji(msg)
+do --------( ALL DO THE SAME THING
+    local function alias(data, modifier, modifier_data, msg)
+	   return str2emoji(msg)
+    end
+    _G.emoji_live_input_replace = alias
+    _G.emoji_out_replace = alias
+    _G.unshortcode_cb = alias
 end
-
-function _G.emoji_out_replace(data, modifier, modifier_data, msg)
-	return str2emoji(msg)
-end
-
-function _G.unshortcode_cb(data, modifier, modifier_data, msg)
-	return str2emoji(msg)
-end
-
---------) THIS ALL DO THE SAME THING
 
 function _G.emoji_complete_next_cb(data, buffer, command)
 	local input_s = w.buffer_get_string(buffer, 'input')
