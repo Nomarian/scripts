@@ -79,10 +79,7 @@ local w = weechat
 local emoji -- { [name] = ":)" } table is at the end because its too big
 
 local function str2emoji(str)
-	if not str then return '' end
-	return (str:gsub(':[%w_+-]+:', function(word)
-		return emoji[word:match(':(.+):')] or word
-	end))
+	return str and str:gsub(':([%w_+-]+):', emoji) or ''
 end
 
 local function emoji_replace_input_string(buffer)
