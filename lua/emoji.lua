@@ -90,7 +90,7 @@ local function str2emoji(str)
 	end))
 end
 
-function emoji_replace_input_string(buffer)
+local function emoji_replace_input_string(buffer)
 	-- Get input contents
 	local input_s = w.buffer_get_string(buffer, 'input')
 	-- Skip modification of settings
@@ -101,26 +101,26 @@ function emoji_replace_input_string(buffer)
 	return w.WEECHAT_RC_OK
 end
 
-function emoji_input_replacer(data, buffer, command)
+function _G.emoji_input_replacer(data, buffer, command)
 	if command == '/input return' then
 		return emoji_replace_input_string(buffer)
 	end
 	return w.WEECHAT_RC_OK
 end
 
-function emoji_live_input_replace(data, modifier, modifier_data, msg)
+function _G.emoji_live_input_replace(data, modifier, modifier_data, msg)
 	return str2emoji(msg)
 end
 
-function emoji_out_replace(data, modifier, modifier_data, msg)
+function _G.emoji_out_replace(data, modifier, modifier_data, msg)
 	return str2emoji(msg)
 end
 
-function unshortcode_cb(data, modifier, modifier_data, msg)
+function _G.unshortcode_cb(data, modifier, modifier_data, msg)
 	return str2emoji(msg)
 end
 
-function emoji_complete_next_cb(data, buffer, command)
+function _G.emoji_complete_next_cb(data, buffer, command)
 	local input_s = w.buffer_get_string(buffer, 'input')
 	-- Require : in word
 	if not input_s:match(':') then
@@ -150,14 +150,14 @@ function emoji_complete_next_cb(data, buffer, command)
 	return w.WEECHAT_RC_OK
 end
 
-function emoji_completion_cb(data, completion_item, buffer, completion)
+function _G.emoji_completion_cb(data, completion_item, buffer, completion)
 	for k, v in pairs(emoji) do
 		w.hook_completion_list_add(completion, ":"..k..":", 0, w.WEECHAT_LIST_POS_SORT)
 	end
 	return w.WEECHAT_RC_OK
 end
 
-function incoming_cb(data, modifier, modifier_data, msg)
+function _G.incoming_cb(data, modifier, modifier_data, msg)
 	-- Only replace in incoming "messages"
 	if modifier_data:match('nick_') then
 		return str2emoji(msg)
