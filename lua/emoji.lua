@@ -80,7 +80,7 @@ local emoji -- { [name] = ":)" } table is at the end because its too big
 
 local function str2emoji(str)
 	if not str then return '' end
-	return (str:gsub(':[a-zA-Z0-9%-_+]+:', function(word)
+	return (str:gsub(':[%w_+-]+:', function(word)
 		return emoji[word:match(':(.+):')] or word
 	end))
 end
