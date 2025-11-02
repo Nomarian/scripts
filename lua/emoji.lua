@@ -188,8 +188,9 @@ local function e_init()
 				w.config_set_plugin(option, value[1])
 			end
 			if version >= 0x00030500 then
-				w.config_set_desc_plugin(option, ('%s (default: "%s")'):format(
-				value[2], value[1]))
+				w.config_set_desc_plugin(option,
+				    ('%s (default: "%s")'):format(value[2], value[1])
+				)
 			end
 		end
 		-- Hook incoming message
