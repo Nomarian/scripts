@@ -86,7 +86,7 @@ local function emoji_replace_input_string(buffer)
 	-- Get input contents
 	local input_s = w.buffer_get_string(buffer, 'input')
 	-- Skip modification of settings
-	if input_s:match('^/set ') then
+	if input_s:find('^/set ') then
 		return w.WEECHAT_RC_OK
 	end
 	w.buffer_set(buffer, 'input', str2emoji(input_s))
@@ -100,6 +100,8 @@ function _G.emoji_input_replacer(data, buffer, command)
 	return w.WEECHAT_RC_OK
 end
 
+--------( THIS ALL DO THE SAME THING
+
 function _G.emoji_live_input_replace(data, modifier, modifier_data, msg)
 	return str2emoji(msg)
 end
@@ -112,10 +114,12 @@ function _G.unshortcode_cb(data, modifier, modifier_data, msg)
 	return str2emoji(msg)
 end
 
+--------) THIS ALL DO THE SAME THING
+
 function _G.emoji_complete_next_cb(data, buffer, command)
 	local input_s = w.buffer_get_string(buffer, 'input')
 	-- Require : in word
-	if not input_s:match(':') then
+	if not input_s:find(':') then
 		return w.WEECHAT_RC_OK
 	end
 	local current_pos = w.buffer_get_integer(buffer, "input_pos") - 1
@@ -131,7 +135,7 @@ function _G.emoji_complete_next_cb(data, buffer, command)
 	local oword = input_s:sub(current_pos)
 	local word = oword:match(':(.*)')
 	for e, b in pairs(emoji) do
-		if e:match(word) then
+		if e:find(word) then
 			local new = (input_s:gsub(":"..word, b))
 			w.buffer_set(buffer, 'input', new)
 			--w.buffer_set(buffer, "input_pos", str(w.buffer_get_integer(buffer, "input_pos") + 1))
@@ -151,7 +155,7 @@ end
 
 function _G.incoming_cb(data, modifier, modifier_data, msg)
 	-- Only replace in incoming "messages"
-	if modifier_data:match('nick_') then
+	if modifier_data:find('nick_') then
 		return str2emoji(msg)
 	end
 	return msg
