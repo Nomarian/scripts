@@ -165,7 +165,7 @@ function incoming_cb(data, modifier, modifier_data, msg)
 	return msg
 end
 
-function e_init()
+local function e_init()
 	if w.register(
 		SCRIPT_NAME,
 		SCRIPT_AUTHOR,
